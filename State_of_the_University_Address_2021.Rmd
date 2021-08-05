@@ -8,10 +8,14 @@
 ```sql
 SELECT *
 FROM my_great_table
-
 ```
 
 * Total number of full-time students
+```r
+SELECT *
+FROM my_other_great_table
+```
+
 * Number of full-time equivalent students
 * Percentage/number of male students
 * Percentage/number of female students
