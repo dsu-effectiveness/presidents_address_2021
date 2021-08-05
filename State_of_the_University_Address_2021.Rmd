@@ -5,6 +5,12 @@
 **Enrollment rates**
 
 * Total number of students by head count
+```sql
+SELECT *
+FROM my_great_table
+
+```
+
 * Total number of full-time students
 * Number of full-time equivalent students
 * Percentage/number of male students
