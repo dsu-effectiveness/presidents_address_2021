@@ -59,6 +59,7 @@ FROM my_other_great_table
 
   * **Total number (and names if possible) of academic programs:**
       * Master's Degrees
+      Use this website: Dixie.edu/academics/pamsstuff
       * Bachelor's Degrees
       * Associate Degrees
       * Certificates
