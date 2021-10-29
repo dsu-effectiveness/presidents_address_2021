@@ -566,6 +566,8 @@ SELECT c.student_id,
       * Added
       * Total
       
+## Community ##
+      
 **Student survey results/Career Services stats**
 
 -- sent email to Career Services
