@@ -4,6 +4,7 @@ output:
   html_document:
     toc: true
     toc_float: true
+    smooth_scroll:  true
 date: "`r format(Sys.time(), '%d %B %Y')`"
 ---
 
