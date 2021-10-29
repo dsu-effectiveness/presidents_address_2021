@@ -3,6 +3,7 @@ title: "President's Viewbook"
 output: 
   html_document:
     toc: true
+    toc_float: true
 date: "`r format(Sys.time(), '%d %B %Y')`"
 ---
 
