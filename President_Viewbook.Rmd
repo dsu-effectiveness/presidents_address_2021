@@ -1,0 +1,729 @@
+---
+title: "President's Viewbook"
+output: 
+  html_document:
+    toc: true
+date: "`r format(Sys.time(), '%d %B %Y')`"
+---
+
+```sql
+/* This EAB/EDH query is currently being used for the data that appears in the Tableau Student Enrollment dashboard */
+SELECT a.term_desc AS Term,
+       a.student_id AS StudentID,
+       e.term_start_date,
+       a.term_id,
+       a.level_id,
+       a.level_desc,
+       CASE WHEN (a.entry_action_status = 'RS' OR a.student_type_desc = 'High School') THEN a.student_type_desc
+            WHEN a.entry_action_status IN ('FF','FH') AND a.student_type_desc = 'Transfer' THEN 'Transfer'
+            WHEN a.entry_action_status IN ('FF','FH','TU') AND a.student_type_desc = 'Readmit' THEN 'Readmit'
+            WHEN a.entry_action_status IS NULL THEN a.student_type_desc
+            ELSE a.entry_action_status
+            END AS entry_action_status,
+       a.student_type_desc,
+       a.primary_level_class_desc,
+       b.first_name,
+       b.last_name,
+       b.birth_date,
+       b.gender_code,
+       CASE
+                 -- International students
+                 WHEN b.is_international = TRUE THEN 'International student'
+                 WHEN b.us_citizenship_code = '2' THEN 'Non-resident alien'
+                 -- IPEDS says Hispanic trumps other race/ethnicity.
+                 WHEN b.is_hispanic_latino_ethnicity = TRUE THEN 'Hispanic'
+                 -- No particular order.
+                 WHEN b.is_multi_racial = TRUE THEN 'Multiracial'
+                 WHEN b.is_hawaiian_pacific_islander = TRUE THEN 'Hawaiian/Pacific Islander'
+                 WHEN b.is_black = TRUE THEN 'Black/African American'
+                 WHEN b.is_american_indian_alaskan = TRUE THEN 'American Indian/Alaskan'
+                 WHEN b.is_asian = TRUE THEN 'Asian'
+                 WHEN b.is_white = TRUE THEN 'White'
+                 ELSE 'Unspecified'
+                 END AS Ethnicity,
+         b.is_first_generation AS FirstGen,
+       a.residency_code,
+       a.residency_code_desc,
+       b.first_admit_country_desc,
+       b.first_admit_state_code,
+       b.first_admit_county_desc,
+       c.highest_exam_score AS act_score,
+       d.highest_exam_score AS sat_score,
+       a.institutional_cumulative_gpa,
+       b.latest_high_school_gpa,
+       a.transfer_cumulative_gpa,
+       a.athlete_activity_desc,
+       a.is_athlete,
+       a.student_time_code,
+       a.transfer_earned_credits,
+       a.institutional_cumulative_credits_earned,
+       CASE a.primary_major_college_desc
+              WHEN 'Mathematics' THEN 'Coll of Sci, Engr & Tech'
+              WHEN '* Natural Sciences' THEN 'Coll of Sci, Engr & Tech'
+              WHEN '*Education/Family Studies/PE' THEN 'College of Education'
+              WHEN 'Humanities & Social Sciences' THEN 'Coll of Humanities/Soc Sci'
+              WHEN 'History/Political Science' THEN 'Coll of Humanities/Soc Sci'
+              WHEN 'Computer Information Tech' THEN 'Coll of Sci, Engr & Tech'
+              WHEN 'Technologies' THEN 'Coll of Sci, Engr & Tech'
+              WHEN 'Nursing' THEN 'College of Health Sciences'
+              ELSE a.primary_major_college_desc
+              END AS primary_major_college_desc,
+       CASE a.primary_major_college_id
+                          WHEN 'NS' THEN 'SC' -- Natural Sci into Sci, Engr, & Tech
+                          WHEN 'CT' THEN 'SC' -- Computer Info Tech into Sci, Engr, & Tech
+                          WHEN 'EF' THEN 'ED' -- Ed/Fam Sci/PE into College of Ed
+                          WHEN 'HI' THEN 'HS' -- Hist/Poli Sci into College of Humanities
+                          WHEN 'MA' THEN 'SC' -- Math into Sci, Engr, & Tech
+                          WHEN 'TE' THEN 'SC' -- Technologies into Sci, Engr, & Tech
+                          ELSE primary_major_college_desc
+                          END AS college_id1,
+       a.primary_major_desc,
+       CASE a.secondary_major_college_desc
+              WHEN 'Mathematics' THEN 'Coll of Sci, Engr & Tech'
+              WHEN '* Natural Sciences' THEN 'Coll of Sci, Engr & Tech'
+              WHEN '*Education/Family Studies/PE' THEN 'College of Education'
+              WHEN 'Humanities & Social Sciences' THEN 'Coll of Humanities/Soc Sci'
+              WHEN 'History/Political Science' THEN 'Coll of Humanities/Soc Sci'
+              WHEN 'Computer Information Tech' THEN 'Coll of Sci, Engr & Tech'
+              WHEN 'Technologies' THEN 'Coll of Sci, Engr & Tech'
+              WHEN 'Nursing' THEN 'College of Health Sciences'
+              ELSE a.secondary_major_college_desc
+              END AS secondary_major_college_desc,
+       CASE a.secondary_major_college_id
+                          WHEN 'NS' THEN 'SC' -- Natural Sci into Sci, Engr, & Tech
+                          WHEN 'CT' THEN 'SC' -- Computer Info Tech into Sci, Engr, & Tech
+                          WHEN 'EF' THEN 'ED' -- Ed/Fam Sci/PE into College of Ed
+                          WHEN 'HI' THEN 'HS' -- Hist/Poli Sci into College of Humanities
+                          WHEN 'MA' THEN 'SC' -- Math into Sci, Engr, & Tech
+                          WHEN 'TE' THEN 'SC' -- Technologies into Sci, Engr, & Tech
+                          ELSE secondary_major_college_id
+                          END AS college_id2,
+       a.secondary_major_desc
+  FROM student_term_level a
+       LEFT JOIN student b
+                 ON a.student_id = b.student_id
+LEFT JOIN prospect_exam c
+       ON b.sis_system_id = c.sis_system_id
+       AND c.exam_code = 'ACT'
+LEFT JOIN prospect_exam d
+       ON b.sis_system_id = d.sis_system_id
+      AND d.exam_code = 'SATR'
+LEFT JOIN term e
+       ON a.term_id = e.term_id
+         WHERE a.term_id BETWEEN '201540' AND '202140'
+           AND a.is_enrolled = TRUE
+           AND is_primary_level = TRUE
+```
+## Enrollment ##
+
+**Fall 2021**
+
+* Total number of students by head count
+  - 12,305
+  
+* Total number of full-time students
+  - 7,234
+  
+* Number of full-time equivalent students
+  - DATA NEEDED
+  
+* Percentage/number of male students
+  - 5,100 (42%)
+  
+* Percentage/number of female students
+  - 7,065 (58%)
+  
+* Percentage/number of non-binary students
+  - Unknown
+  
+* Ethnicity
+  - White-9,261 (75.3%)
+  - Hispanic-1,499 (12.2%)
+  - Multiracial-507 (4.1%)
+  - Unspecified-264 (2.1%)
+  - Black/African American-215 (1.7%)
+  - International Student-177 (1.4%)
+  - Asian-142 (1.2%)
+  - Hawaiian/Pacific Islander-135 (1.1%)
+  - American Indian/Alaskan-105 (0.9%)
+  
+* Percentage/number of international students
+  - 177 (1.4%)
+  
+* Percentage/number of in-state students
+  - 9,508 (77.3%)
+  
+* Percentage/number of Washington County students
+  - 6,037 (62.4%)
+  
+* Percentage/number of out-of-state students
+  - 2,625 (21.3%)
+  
+* Total number of adult students (as defined in the strategic plan – goal 2)
+  - Headcount query/Enrollment Tableau dashboard
+      - **Definition from Strategic Plan**: *Adult Students
+       Individuals aged 25 and over, or as otherwise defined in DSU policy*
+       - 1,506
+  
+* Total number of new students enrolled
+  
+* Percentage/number of first-generation students
+  - 27%
+  
+* Age of youngest student
+  - 14
+  
+* Age of oldest student
+  - 78
+
+**Concurrent Enrollment rates**
+
+* Percentage/number of Concurrent Enrollment students
+  - 3,274 (26.6%)
+
+## Retention ##
+
+
+```sql
+/* This table in EDH/EAB is currently being used to run the Student Success Tableau Dashboard. */
+
+SELECT *
+FROM tbl_stu_success;
+
+```
+* Retention table to build Student Success Tableau Dashboard includes the following fields:
+  - student_id
+  - level_id
+  - freshman_cohort_code
+  - dixie_is_cohort_excluded (TRUE/FALSE - This is for IPEDS exclusions)
+  - ft_pt_cohort
+  - degree_intent_cohort
+  - cohort_year
+  - base_term
+  - timeframe
+  - term_id
+  - enrolled (Y/N)
+  - certificate (Y/N)
+  - associate (Y/N)
+  - bachelor (Y/N)
+  - freshman_cohort_desc
+  - residency_code_desc
+  - is_athlete
+  - gender_code
+  - ethnicity
+  - institutional_cumulative_gpa
+  - student_type_desc
+  
+## Graduation ##
+
+```sql
+/* This EDH/EAB query is curently being used to run the Credentials Awarded Tableau Dashboard */
+
+SELECT c.student_id,
+       e.academic_year_code,
+       e.academic_year_desc,
+       b.graduated_term_id,
+       b.graduation_date,
+       b.level_id,
+       b.degree_id,
+       CASE b.primary_major_college_desc
+                  WHEN 'Mathematics' THEN 'Sci, Engr & Tech'
+                  WHEN '* Natural Sciences' THEN 'Sci, Engr & Tech'
+                  WHEN '*Education/Family Studies/PE' THEN 'Education'
+                  WHEN 'Humanities & Social Sciences' THEN 'Humanities/Soc Sci'
+                  WHEN 'History/Political Science' THEN 'Humanities/Soc Sci'
+                  WHEN 'Computer Information Tech' THEN 'Sci, Engr & Tech'
+                  WHEN 'Technologies' THEN 'Sci, Engr & Tech'
+                  WHEN 'Nursing' THEN 'Health Sciences'
+                  WHEN 'College of Health Sciences' THEN 'Health Sciences'
+                  WHEN 'College of Business' THEN 'Business'
+                  WHEN 'College of Education' THEN 'Education'
+                  WHEN 'College of the Arts' THEN 'Fine Arts'
+                  WHEN 'Coll of Sci, Engr & Tech' THEN 'Sci, Engr & Tech'
+                  WHEN 'Coll of Humanities/Soc Sci' THEN 'Humanities/Soc Sci'
+                  ELSE b.primary_major_college_desc
+                END AS College,
+       b.primary_major_desc,
+       d.athlete_activity_desc,
+       d.residency_code,
+       d.residency_code_desc,
+       c.is_veteran,
+       c.birth_date,
+       c.gender_code,
+       c.first_admit_country_desc,
+       c.first_admit_state_desc,
+       c.mailing_address_state_code,
+       c.mailing_address_country_code,
+       CASE
+                 -- International students
+                WHEN c.is_international = TRUE THEN 'International student'
+                WHEN c.us_citizenship_code = '2' THEN 'Non-resident alien'
+                 -- IPEDS says Hispanic trumps other race/ethnicity.
+                WHEN c.is_hispanic_latino_ethnicity = TRUE THEN 'Hispanic'
+                 -- No particular order.
+                WHEN c.is_multi_racial = TRUE THEN 'Multiracial'
+                WHEN c.is_hawaiian_pacific_islander = TRUE THEN 'Hawaiian/Pacific Islander'
+                WHEN c.is_black = TRUE THEN 'Black/African American'
+                WHEN c.is_american_indian_alaskan = TRUE THEN 'American Indian/Alaskan'
+                WHEN c.is_asian = TRUE THEN 'Asian'
+                WHEN c.is_white = TRUE THEN 'White'
+                ELSE 'Unspecified'
+                END AS Ethnicity
+       FROM degrees_awarded b
+  LEFT JOIN student c
+         ON b.student_id = c.student_id
+        AND c.primary_level_id = b.level_id
+  LEFT JOIN student_term_level d
+         ON c.student_id = d.student_id
+        AND b.graduated_term_id = d.term_id
+  LEFT JOIN term e
+         ON b. graduated_term_id = e.term_id
+      WHERE b. is_graduated = TRUE
+```
+
+**Degrees awarded each semester**
+
+**Spring 2021**
+
+* Total number of associate degrees
+  - 449
+  
+* Total number of bachelor’s degrees
+  - 620
+  
+* Total number of master’s degrees
+  - 23
+
+* Total number of certificates
+  - 505
+  
+* Total number of graduates
+  - Spring 2021
+  - Academic Year 2020-21: 2,835
+
+**Total number (and overall amount) of scholarship awards funded**
+
+  - Data Needed
+
+## Academic Programs ##
+
+  * **Total number (and names if possible) of academic programs:**
+      * **Master's Degrees -- 4**
+        - Accountancy
+        - Athletic Training
+        - Marriage & Family Therapy
+      * **Bachelor's Degrees -- 53**
+        - Accounting
+        - Applied and Computational Math
+        - Applied Sociology
+        - Art
+        - Biochemistry & Molecular Biology
+        - Bioinformatics
+        - Biology
+        - Biology with Integrated Science
+        - Chemistry
+        - Communication Studies
+        - Computer Engineering
+        - Computer Science
+        - Criminal Justice
+        - Dance
+        - Dental Hygiene
+        - Design
+        - Digital Film
+        - Earth, Energy and Environmental Science
+        - Electrical Engineering
+        - Elementary Education
+        - English
+        - Enterprise Management
+        - Exercise Science
+        - Finance
+        - Health Administration
+        - History
+        - Individualized Studies
+        - Information Systems & Analytics
+        - Information Technology
+        - Integrated Studies
+        - Management
+        - Marketing
+        - Mathematics
+        - Mathematics Education
+        - Mechanical Engineering
+        - Media Studies
+        - Medical Laboratory Science
+        - Music
+        - Music Education
+        - Music Performance
+        - Nursing
+        - Physical Science Composite Teaching
+        - Population Health
+        - Professional Studies
+        - Psychology
+        - Recreation and Sport Management
+        - Respiratory Therapy
+        - Software Engineering
+        - Spanish
+        - Studio Art
+        - Technology Innovation
+        - Theater
+        - Theater Education
+      * **Associate Degrees -- 17**
+        -Criminal Justice
+        - Early Childhood Education
+        - Earth & Environmental Sciences
+        - Emergency Medical Services
+        - General Studies
+        - General Technology: Business
+        - General Technology: Design
+        - General Technology: Information Technology
+        - Information Technology
+        - Laboratory Studies
+        - Management
+        - Medical Radiography
+        - Nursing
+        - Pharmacy Preparation
+        - Physical Therapist Assistant
+        - Pre-Engineering (APE)
+        - Surgical Technology
+      * **Certificates -- 51**
+        - Art  2D Animation
+        - Art 3D Animation
+        - Accounting & Information Systems
+        - Advanced Design
+        - Advanced Emergency Medical Technician (A-EMT)
+        - Advanced Information Technology
+        - Applied Statistics I
+        - Applied Statistics II
+        - Art: Photography/Digital Imaging
+        - Biotechnology
+        - Community and Social Change
+        - Computing Fundamentals
+        - Critical Reasoning
+        - Cryptography I
+        - Cryptography II
+        - Data Analytics
+        - Design
+        - Diversity
+        - Emergency Medical Technician (EMT)
+        - Entrepreneurship
+        - Ethical Judgment
+        - General Education
+        - Gerontology
+        - Global Perspectives
+        - Health Communication
+        - Information Technology
+        - Leadership
+        - Maker
+        - Marketing
+        - Media Production
+        - Mediation
+        - Medical Lab Assistant Technology
+        - Modeling and Simulation
+        - Multimedia Journalism
+        - Music Technology
+        - Nurse Assistant (CNA)
+        - Paramedic
+        - Phlebotomy
+        - Piano Pedagogy
+        - Professional & Career Communication
+        - Professional Writing
+        - Retail Management
+        - Social Media
+        - Social Research Methods
+        - Strategic Communication
+        - Supply Chain Management
+        - Sustainability
+        - Technology Innovation & Entrepreneurship
+        - Visual Culture & Society
+        - Web Design & Development
+        - Wellness Coaching
+      * **Emphases -- 70**
+        - 3D/Sculpture/Ceramics
+        - Actuarial Science
+        - American Sign Language Interpreter
+        - Applied Leadership
+        - Art
+        - Art Education
+        - Biological Sciences
+        - Biology
+        - Biology Education
+        - Biomedical Sciences
+        - Business
+        - Chemistry
+        - Communication Studies
+        - Computer Science
+        - Corporate Recreation & Wellness
+        - Creative Writing
+        - Criminal Justice 
+        - Criminology
+        - Dance
+        - Data Analytics
+        - Digital Defense & Security
+        - Digital Design
+        - Digital Film Production
+        - Earth Sciences
+        - English
+        - English Education
+        - Entertainment, Arts & Animation
+        - Environmental Science
+        - Experience Management
+        - Family Studies and Human Development
+        - Geoscience
+        - Global Studies
+        - Graphic Design
+        - Health Care Administration
+        - Health Communication
+        - History
+        - History and Social Science Teaching
+        - Humanities & Philosophy
+        - Information Technology
+        - Interaction Design
+        - Literary Studies
+        - Long Term Care Administration
+        - Management
+        - Management Information Systems
+        - Marketing
+        - Mathematical Sciences
+        - Media Production
+        - Media Studies
+        - Multimedia Journalism
+        - Music
+        - Natural Sciences
+        - Organization and Leadership
+        - Painting/Drawing/Illustration
+        - Photography/Digital Imagery
+        - Pre-Athletic Training
+        - Pre-Occupational Therapy
+        - Pre-Physical Therapy
+        - Professional and Technical Writing
+        - Psychology
+        - Public Health
+        - Public Relations
+        - Recreation Management
+        - Scientific Computing
+        - Sociology
+        - Software Development
+        - Spanish
+        - Spanish-Secondary Education
+        - Sport Management
+        - Theater
+        - Web Design & Development
+      * **Minors -- 45**
+        - Accounting
+        - American Sign Language
+        - Art
+        - Art History
+        - Biology
+        - Biology Education
+        - Biomedical Science
+        - Chemistry
+        - Chemistry Education
+        - Communication Studies
+        - Computer Science
+        - Creative Writing
+        - Criminology
+        - Dance
+        - Digital Defense and Security
+        - Digital Design
+        - Economics
+        - English Education
+        - Family Studies and Human Development
+        - General English 
+        - Geoscience
+        - Global Studies
+        - Health Care Administration
+        - Health Psychology
+        - History
+        - Humanities & Philosophy
+        - Information Technology
+        - Long Term Care Administration
+        - Management
+        - Marketing
+        - Mathematics
+        - Mathematics Education
+        - Media Studies
+        - Music
+        - Nonprofit Management
+        - Photography
+        - Physics
+        - Professional & Technical Writing
+        - Psychology
+        - Public Health
+        - Social Justice
+        - Sociology
+        - Spanish
+        - Theater
+        - Web Design & Development
+  
+  * **Total number of added programs: 2020-21**
+      * Master's Degrees -- 0
+      * Bachelor's Degrees -- 3
+      * Associate Degrees -- 3
+      * Certificates -- 22
+      * Emphases -- 0
+      * Minors -- 1
+
+  * **Online Courses:**
+      * Added
+      * Total
+      
+**Student survey results/Career Services stats**
+
+-- sent email to Career Services
+
+* Percentage of senior students rating their DSU experience as excellent or good
+* Percentage of DSU graduates who are employed or entering graduate school or the military within six months of graduation -- 95%
+* Number of students who participated in internships, clinicals or student teaching
+* Number of jobs or internships available on Handshake
+* Number of employers included on Handshake
+* Number of students who participated in internships relevant to their field of study for credit last year -- 3,060
+
+**Atwood Innovation Plaza statistics (overall totals to date as well as annual numbers)**
+
+-- email sent to Atwood/Colby Jenkins
+
+    -- Comment from Colby Jenkins 10/26/21: "This is nearly impossible to report. While we do track visits and reservations, we have any number of people who call and/or just walk in to have a casual chat that may not rise to the level of a formal "visit." Regardless, here is what I can provide: 2500 combined going back one year, end of September 2020 to September 2021:
+* Number of aspiring entrepreneurs and innovators served (through the Business Resource Center, the Makerspace, and/or the Innovation, Guidance and Solutions Center) -- 2,500
+* Number of patent applications filed -- 158
+* Number of patents granted -- 78
+* Number of new startup companies incubated -- 20
+* Number of jobs developed (as a result of companies launched) -- 120
+* Number of copyrights issued -- 4
+* Number of trademarks registered -- 26
+
+**Human Resources statistics**
+
+-- Email sent to HR/Greg Esplin
+
+* Percentage of new full-time faculty that have come from another state
+* Percentage of new full-time faculty that have been born in another nation
+* Percentage of full-time staff that have been retained for at least three years
+* Percentage of new full-time faculty who successfully complete their intermediate review
+* Percentages of employees who report high levels of job satisfaction (as part of the “Great Colleges to Work For” program) -- No data available
+* Percentage of full-time positions paid at least 95% of the market median for the Carnegie Master’s benchmark group -- 
+* Percentage of full-time employees able to identify and support the mission and its elements, vision and values and inspired to build a premier open, inclusive, comprehensive, polytechnic university -- Not data available
+* Amount of Professional Development Funds awarded to faculty -- No data available
+* Amount of Professional Development Funds awarded to staff -- No data available
+* Percentage of women in leadership positions on campus
+
+**Advancement Department rates**
+
+* Total fundraising revenues (annually)
+* Number of employees who participate in payroll deduction giving 
+* The amount given through payroll deduction giving
+* Trailblazer Giving Day information
+    * Total number of donors
+    * Total number of new donors
+    * Total funds raised
+    * Increases over prior years
+* Alumni Association stats
+    * Number of alumni reached through newsletters, social media engagement, phone calls, and events
+    * Number of alumni events held
+    * Number of Alumni Legacy Scholarships granted
+    
+**Student-related statistics**
+
+These data are from the published Viewbook distributed at the 2021 President's Address
+
+* Acceptance rate -- 100%
+* Average class size -- 23
+* Average student housing cost (per month, shared & private)
+    * $384/month -- shared
+    * $517/month -- private
+* Student to faculty ratio -- 23:1
+* Percentage of students offered scholarships, grants, or other financial aid -- 86%
+* Number of student clubs -- 85
+* Number of students participating in intramural sports & programs -- 
+
+**Community Engagement statistics**
+
+--Ask Nancy Hauck
+
+* Total volunteer hours of service that students, faculty, staff, and alumni board members have contributed throughout the community
+* Total number of service projects DSU has participated in throughout the year (the service projects the above-mentioned volunteers contributed to)
+* Number of annual Study Abroad experiences
+    * Total programs (and destinations)
+    * Number of faculty members involved
+    * Number of students involved
+    
+**Multicultural & Inclusion Center information**
+
+--Email sent to MIC/Data received from Ali Threet and Mike Nelson
+
+* Average number of MIC events held each year -- 50
+* Overall number of participants at MIC events -- 1,700
+
+**Athletics statistics**
+
+--Provided by Jason Boothe/Athletics
+
+* Number of NCAA Division Teams: 16
+* Conference Championships since 2016-2017: 7
+    * Men’s Golf 2016, 2018
+    * Men’s Basketball 2018, 2020
+    * Softball 2019
+    * Women’s Tennis 2019
+    * Volleyball 2018
+* Regional tournament appearances since 2016-2017: 13
+    * Men’s Soccer 2016
+    * Women’s Soccer 2019
+    * Volleyball 2018
+    * Men’s Basketball 2017, 2018, 2020
+    * Baseball 2017
+    * Softball 2017, 2018, 2019
+    * Men’s Golf 2017, 2018, 2019
+
+* Athletic Department hours of community service contributed from athletes since 2016-2017: 13,863
+    * 2016-2017: 2,234
+    * 2017-18: 3,637
+    * 2018-19: 4,400
+    * 2019-20: 3,090
+    * 2020-2021: 502 (limited due to COVID)
+
+**Policies 2020-21**
+
+--Email sent to Jaclyn Keroauc
+
+* Number of new -- 6
+* Number of updated -- 21
+* Number of retired/deleted -- 4
+* Number of pending approval for Fall 2021 -- 14
+
+**Events statistics -- estimated attendance at the following events:**
+
+--Email sent to UMAC
+
+* Homecoming/D-Week
+* Trailblazer Tree Lighting Celebration
+* Kite Festival
+* 4th of July Celebration
+* DOCUTAH
+* Huntsman World Senior Games
+* Pioneer Legacy Events 24th of July Celebration
+
+**University Marketing & Communication stats**
+
+--Email sent to UMAC
+
+* Media Reach
+* Media Mentions
+* Ad Value Equivalency
+* Social Media Impressions
+* Social Media Engagements
+* Social Media Followers
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
+
