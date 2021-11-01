@@ -636,7 +636,9 @@ These data are from the published Viewbook distributed at the 2021 President's A
 * Student to faculty ratio -- 23:1
 * Percentage of students offered scholarships, grants, or other financial aid -- 86%
 * Number of student clubs -- 85
-* Number of students participating in intramural sports & programs -- 
+* Number of students participating in intramural sports & programs:
+    * Fall 2020 -- 1,480
+    * Spring 2021 -- 1,651
 
 **Community Engagement statistics**
 
