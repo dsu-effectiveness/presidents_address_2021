@@ -282,7 +282,6 @@ SELECT c.student_id,
          ON b. graduated_term_id = e.term_id
       WHERE b. is_graduated = TRUE
 ```
-
 **Degrees awarded each semester**
 
 **Spring 2021**
@@ -567,6 +566,15 @@ SELECT c.student_id,
   * **Online Courses:**
       * Added
       * Total
+      
+## Campus Community ##
+
+**Dixie State University Education Centers**
+
+* St. George
+* Hurricane
+* Kenab
+* Hildale
       
 ## Community ##
       
