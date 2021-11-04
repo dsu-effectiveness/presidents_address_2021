@@ -594,6 +594,8 @@ SELECT c.student_id,
 * Number of jobs or internships available on Handshake
 * Number of employers included on Handshake
 * Number of students who participated in internships relevant to their field of study for credit last year -- 3,060
+* 100% of Surgical Technology, Dental Hygiene, Medical Radiography, and Physical Therapist Assistant graduates passed their national credentialing exams on the first attempt.
+
 
 **Atwood Innovation Plaza statistics (overall totals to date as well as annual numbers)**
 
@@ -604,9 +606,10 @@ SELECT c.student_id,
 * Number of patent applications filed -- 158
 * Number of patents granted -- 78
 * Number of new startup companies incubated -- 20
-* Number of jobs developed (as a result of companies launched) -- 120
+* Number of jobs created (as a result of companies launched) -- 120
 * Number of copyrights issued -- 4
 * Number of trademarks registered -- 26
+* Business consultations -- 608
 
 **Human Resources statistics**
 
@@ -658,8 +661,8 @@ These data are from the published Viewbook distributed at the 2021 President's A
 
 --Ask Nancy Hauck
 
-* Total volunteer hours of service that students, faculty, staff, and alumni board members have contributed throughout the community
-* Total number of service projects DSU has participated in throughout the year (the service projects the above-mentioned volunteers contributed to)
+* Total volunteer hours of service that students, faculty, staff, and alumni board members have contributed throughout the community -- 250,000
+* Total number of service projects DSU has participated in throughout the year (the service projects the above-mentioned volunteers contributed to) -- 150
 * Number of annual Study Abroad experiences
     * Total programs (and destinations)
     * Number of faculty members involved
