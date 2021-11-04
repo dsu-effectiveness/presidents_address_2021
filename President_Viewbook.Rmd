@@ -581,9 +581,13 @@ SELECT c.student_id,
 
 **Campus Statistics-Rooms, etc**
 * Square footage: 
-* Number of buildings:
+* Number of buildings: 61
+* Number of new buildings: 2
+* Percentage of instructional space: 
 * Number of classrooms:
 * Number of labs:
+* Number of beds:
+* Instructional space per FTE: 
       
 ## Community ##
       
