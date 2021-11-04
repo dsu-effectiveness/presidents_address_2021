@@ -125,7 +125,10 @@ LEFT JOIN term e
 **Fall 2021**
 
 * Total number of students by head count
-  - 12,233
+  - 12,266
+  
+* FTE
+  - 9,012
   
 * Total number of full-time students
   - 7,234 (58%)
@@ -134,13 +137,10 @@ LEFT JOIN term e
   - 5,032 (42%)
   
 * Number of full-time equivalent students
-  - 9,012
   
 * Percentage/number of male students
-  - 
   
 * Percentage/number of female students
-  - 
   
 * Percentage/number of non-binary students
   - Unknown
@@ -157,16 +157,12 @@ LEFT JOIN term e
   - American Indian/Alaskan-
   
 * Percentage/number of international students
-  - 
   
 * Percentage/number of in-state students
-  - 
   
 * Percentage/number of Washington County students
-  - 
   
 * Percentage/number of out-of-state students
-  - 
   
 * Total number of adult students (as defined in the strategic plan – goal 2)
   - Headcount query/Enrollment Tableau dashboard
