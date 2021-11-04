@@ -118,48 +118,55 @@ LEFT JOIN term e
 ```
 ## Enrollment ##
 
+-- USHE data that we get from the snapshot.
+
+  --These data come from the DSCIR snapshot for the offical USHE count. We get the SQL for this from          Andrea:
+
 **Fall 2021**
 
 * Total number of students by head count
-  - 12,305
+  - 12,233
   
 * Total number of full-time students
-  - 7,234
+  - 7,234 (58%)
+  
+* Total number of part-time students
+  - 5,032 (42%)
   
 * Number of full-time equivalent students
-  - DATA NEEDED
+  - 9,012
   
 * Percentage/number of male students
-  - 5,100 (42%)
+  - 
   
 * Percentage/number of female students
-  - 7,065 (58%)
+  - 
   
 * Percentage/number of non-binary students
   - Unknown
   
 * Ethnicity
-  - White-9,261 (75.3%)
-  - Hispanic-1,499 (12.2%)
-  - Multiracial-507 (4.1%)
-  - Unspecified-264 (2.1%)
-  - Black/African American-215 (1.7%)
-  - International Student-177 (1.4%)
-  - Asian-142 (1.2%)
-  - Hawaiian/Pacific Islander-135 (1.1%)
-  - American Indian/Alaskan-105 (0.9%)
+  - White-
+  - Hispanic-
+  - Multiracial-
+  - Unspecified-
+  - Black/African American-
+  - International Student-
+  - Asian-
+  - Hawaiian/Pacific Islander-
+  - American Indian/Alaskan-
   
 * Percentage/number of international students
-  - 177 (1.4%)
+  - 
   
 * Percentage/number of in-state students
-  - 9,508 (77.3%)
+  - 
   
 * Percentage/number of Washington County students
-  - 6,037 (62.4%)
+  - 
   
 * Percentage/number of out-of-state students
-  - 2,625 (21.3%)
+  - 
   
 * Total number of adult students (as defined in the strategic plan – goal 2)
   - Headcount query/Enrollment Tableau dashboard
