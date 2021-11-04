@@ -575,6 +575,12 @@ SELECT c.student_id,
 * Hurricane
 * Kenab
 * Hildale
+
+**Campus Statistics-Rooms, etc**
+* Square footage: 
+* Number of buildings:
+* Number of classrooms:
+* Number of labs:
       
 ## Community ##
       
