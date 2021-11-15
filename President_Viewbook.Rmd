@@ -131,12 +131,10 @@ LEFT JOIN term e
   - 9,012
   
 * Total number of full-time students
-  - 7,234 (58%)
+  - 7,236 (59%)
   
 * Total number of part-time students
-  - 5,032 (42%)
-  
-* Number of full-time equivalent students
+  - 5,030 (41%)
   
 * Percentage/number of male students
   
@@ -168,12 +166,11 @@ LEFT JOIN term e
   - Headcount query/Enrollment Tableau dashboard
       - **Definition from Strategic Plan**: *Adult Students
        Individuals aged 25 and over, or as otherwise defined in DSU policy*
-       - 1,506
   
-* Total number of new students enrolled
+* Freshman Headcount
+  - 2,559 (21%)
   
 * Percentage/number of first-generation students
-  - 27%
   
 * Age of youngest student
   - 14
@@ -184,7 +181,7 @@ LEFT JOIN term e
 **Concurrent Enrollment rates**
 
 * Percentage/number of Concurrent Enrollment students
-  - 3,274 (26.6%)
+  - 3,237 (27%)
 
 ## Retention ##
 
@@ -634,6 +631,8 @@ SELECT c.student_id,
 * Percentage of women in leadership positions on campus
 
 **Advancement Department rates**
+
+-- Email conversation with Ken Beazer
 
 * Total fundraising revenues (annually)
 * Number of employees who participate in payroll deduction giving 
