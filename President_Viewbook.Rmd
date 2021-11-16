@@ -9,6 +9,7 @@ date: "`r format(Sys.time(), '%d %B %Y')`"
 ---
 
 ```sql
+
 /* This EAB/EDH query is currently being used for the data that appears in the Tableau Student Enrollment dashboard */
 SELECT a.term_desc AS Term,
        a.student_id AS StudentID,
@@ -116,6 +117,7 @@ LEFT JOIN term e
            AND a.is_enrolled = TRUE
            AND is_primary_level = TRUE
 ```
+
 ## Enrollment ##
 
 -- USHE data that we get from the snapshot.
@@ -286,6 +288,9 @@ SELECT c.student_id,
 
 **Spring 2021**
 
+* Total number of certificates
+  - 507
+
 * Total number of associate degrees
   - 449
   
@@ -294,13 +299,10 @@ SELECT c.student_id,
   
 * Total number of master’s degrees
   - 23
-
-* Total number of certificates
-  - 505
   
 * Total number of graduates
-  - Spring 2021
-  - Academic Year 2020-21: 2,835
+  - Spring 2021: 1,599
+  - Academic Year 2020-21: 2,839
 
 **Total number (and overall amount) of scholarship awards funded**
 
