@@ -573,20 +573,21 @@ SELECT c.student_id,
 
 **Dixie State University Education Centers**
 
-* St. George
-* Hurricane
-* Kenab
-* Hildale
+  * St. George
+  * Hurricane
+  * Kenab
+  * Hildale
 
 **Campus Statistics-Rooms, etc**
-* Square footage: 
-* Number of buildings: 61
-* Number of new buildings: 2
-* Percentage of instructional space: 
-* Number of classrooms:
-* Number of labs:
-* Number of beds:
-* Instructional space per FTE: 
+
+  * Square footage: 
+  * Number of buildings: 61
+  * Number of new buildings: 2
+  * Percentage of instructional space: 
+  * Number of classrooms:
+  * Number of labs:
+  * Number of beds:
+  * Instructional space per FTE: 
       
 ## Community ##
       
@@ -621,16 +622,16 @@ SELECT c.student_id,
 
 -- Email sent to HR/Greg Esplin
 
-* Percentage of new full-time faculty that have come from another state
-* Percentage of new full-time faculty that have been born in another nation
-* Percentage of full-time staff that have been retained for at least three years
-* Percentage of new full-time faculty who successfully complete their intermediate review
+* Percentage of new full-time faculty that have come from another state -- 50%
+* Percentage of new full-time faculty that have been born in another nation -- 17%
+* Percentage of full-time staff that have been retained for at least three years -- 56%
+* Percentage of new full-time faculty who successfully complete their intermediate review -- 90%
 * Percentages of employees who report high levels of job satisfaction (as part of the “Great Colleges to Work For” program) -- No data available
-* Percentage of full-time positions paid at least 95% of the market median for the Carnegie Master’s benchmark group -- 
+* Percentage of full-time positions paid at least 95% of the market median for the Carnegie Master’s benchmark group -- 69%
 * Percentage of full-time employees able to identify and support the mission and its elements, vision and values and inspired to build a premier open, inclusive, comprehensive, polytechnic university -- Not data available
 * Amount of Professional Development Funds awarded to faculty -- No data available
 * Amount of Professional Development Funds awarded to staff -- No data available
-* Percentage of women in leadership positions on campus
+* Percentage of women in leadership positions on campus -- 39%
 
 **Advancement Department rates**
 
