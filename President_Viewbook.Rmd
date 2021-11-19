@@ -670,12 +670,14 @@ These data are from the published Viewbook distributed at the 2021 President's A
 
 --Email sent to Nancy Hauck
 
+-- Comment from Nancy Hauck 11/18/2021:: "Because of Covid we had no study abroad programs able to go out last year. So the answer is zero on all on your list. I suggest you not include study abroad data in the viewbook, as there isn't much to report."
+
 * Total volunteer hours of service that students, faculty, staff, and alumni board members have contributed throughout the community -- 250,000
 * Total number of service projects DSU has participated in throughout the year (the service projects the above-mentioned volunteers contributed to) -- 150
-* Number of annual Study Abroad experiences
-    * Total programs (and destinations)
-    * Number of faculty members involved
-    * Number of students involved
+* Number of annual Study Abroad experiences (See note from Nancy Hauck)
+    * Total programs (and destinations) -- 0
+    * Number of faculty members involved -- 0 
+    * Number of students involved -- 0
     
 **Multicultural & Inclusion Center information**
 
