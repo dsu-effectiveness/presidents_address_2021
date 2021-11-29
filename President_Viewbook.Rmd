@@ -738,9 +738,9 @@ These data are from the published Viewbook distributed at the 2021 President's A
 
 --Email sent to UMAC/Stacy Schmidt and Megan Church
 
-* Media Reach
-* Media Mentions
-* Ad Value Equivalency
+* Media Reach -- 41,322,845,914
+* Media Mentions -- 18,253
+* Ad Value Equivalency -- $382,236,326
 * Social Media Impressions
 * Social Media Engagements
 * Social Media Followers
